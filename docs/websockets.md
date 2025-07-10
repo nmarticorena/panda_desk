@@ -197,10 +197,10 @@ This document describes the available websocket endpoints for the old panda (not
 - **Description:** Not Sure.
 
 ### `wss://172.16.0.2/desk/api/timelines/{timeline_id}`
-- **Description:** Returns a specific timeline.
+- **Description:** Not Sure.
 
 ### `wss://172.16.0.2/desk/api/navigation/mode`
-- **Description:** Navigation mode endpoint.
+- **Description:** Not Sure.
 
 ### `wss://172.16.0.2/desk/api/navigation/events`
 - **Description:** State of the keys on the robot. Not all keys may be present in the response. Only the initial message has all of them.
@@ -219,7 +219,7 @@ This document describes the available websocket endpoints for the old panda (not
   ```
 
 ### `wss://172.16.0.2/desk/api/pilot/hardware`
-- **Description:** Pilot hardware connection status.
+- **Description:** Not Sure.
 - **Frequency:** ~0.5 messages per second
 - **Example output:**
   ```json
@@ -229,7 +229,7 @@ This document describes the available websocket endpoints for the old panda (not
   ```
 
 ### `wss://172.16.0.2/desk/api/base-leds/hardware`
-- **Description:** Base LEDs hardware connection status.
+- **Description:** Not Sure.
 - **Frequency:** ~0.5 messages per second
 - **Example output:**
   ```json
@@ -239,7 +239,7 @@ This document describes the available websocket endpoints for the old panda (not
   ```
 
 ### `wss://172.16.0.2/desk/api/events/gripper/hardware`
-- **Description:** Gripper hardware events.
+- **Description:** Gripper hardware status.
 - **Frequency:** ~1 message per second
 - **Example output:**
   ```json
@@ -288,10 +288,3 @@ This document describes the available websocket endpoints for the old panda (not
   ```
 
 ---
-
-## Notes
-
-- For detailed skill and timeline structures, see the respective documentation.
-- Example payloads are truncated for brevity.
-- Replace `{timeline_id}` with the actual timeline identifier.
-
