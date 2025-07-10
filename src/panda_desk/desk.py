@@ -138,7 +138,7 @@ class Desk:
         and login automatically.
         """
         if self._platform == 'panda':
-            print("Old panda platform does not support this function")
+            print("Old panda platform cannot set operating mode.")
             return
         
         if mode == "execution":
@@ -211,55 +211,7 @@ class Desk:
     @trio_async_generator
     async def robot_states(self):
         """ Returns cartesian pose (16), estimated forces (6), estimated torques (7), and joint angles (7). 
-        Example:
-        {
-            "cartesianPose": [
-                0.9921918750166545,
-                0.04184658466009511,
-                0.11749090294435147,
-                0,
-                0.0486533690265647,
-                -0.9972627463328305,
-                -0.05567611903252592,
-                0,
-                0.11483944904155471,
-                0.060957723281242195,
-                -0.9915120054322084,
-                0,
-                0.2923385865363911,
-                0.09409859354808087,
-                0.5085957823211247,
-                1
-            ],
-            "estimatedForces": [
-                0.2162808495091331,
-                -0.4345939539865341,
-                -0.23250551101884834,
-                -0.061200322460370715,
-                0.01342586960914791,
-                0.06415705090225535
-            ],
-            "estimatedTorques": [
-                0.10187140929146088,
-                -0.06991852701336056,
-                0.05740853962628282,
-                0.18436922111003895,
-                -0.0006288486372015669,
-                0.09181937009334365,
-                0.1028044936597811
-            ],
-            "jointAngles": [
-                -0.2090783682630469,
-                -0.9162435760010649,
-                0.28992812192930767,
-                -2.3619656065492456,
-                0.2916468496321751,
-                1.584088039562825,
-                0.7370122509488684
-            ]
-        } 
         """
-
         async with self.connect('/desk/api/robot/configuration') as websocket:
             while True:
                 event = await websocket.get_message()
@@ -268,188 +220,6 @@ class Desk:
     @trio_async_generator
     async def general_system_status(self):            
         """
-        Example output:
-        {
-            "execution": {
-                "aborted": false,
-                "error": null,
-                "errorHandling": false,
-                "lastActivePath": null,
-                "remainingWaitTime": null,
-                "running": false,
-                "state": {
-                    "active": false,
-                    "children": [],
-                    "exitPort": null,
-                    "id": null,
-                    "result": null
-                },
-                "tracking": true
-            },
-            "safety": {
-                "sequenceNumber": 18487175,
-                "safetyControllerStatus": "Idle",
-                "brakeState": [
-                    "Locked", # "Locked" or "Unlocked"
-                    "Locked",
-                    "Locked",
-                    "Locked",
-                    "Locked",
-                    "Locked",
-                    "Locked"
-                ],
-                "stoState": "SafeTorqueOff",
-                "timeToTd2": 8101,
-                "activeWarnings": {
-                    "safetySettingsInvalidated": false,
-                    "temperatureHigh": false
-                },
-                "demandedRecoveries": {
-                    "jointLimitViolation": [
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                    ],
-                    "jointPositionError": [
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                    ],
-                    "safetyRuleViolationsConfirmation": {},
-                    "safetyRuleViolationsRecovery": {}
-                },
-                "recoverableErrors": {
-                    "environmentDataTimeout": false,
-                    "fsoeConnectionError": false,
-                    "genericJointError": false,
-                    "guidingEnablingDevice": false,
-                    "jointPositionError": false,
-                    "safeInputErrorX31": false,
-                    "safeInputErrorX32": false,
-                    "safeInputErrorX33": false,
-                    "safeInputErrorX4": false,
-                    "td2Timeout": false
-                },
-                "activeRecovery": null,
-                "safeInputState": {
-                    "guidingEnableButton": "Inactive",
-                    "x31": "Active",
-                    "x32": "Inactive",
-                    "x33": "Inactive",
-                    "x4": "Inactive"
-                },
-                "powerState": {
-                    "endEffector": "Off",
-                    "robot": "On"
-                },
-                "safetyControllerStatusReason": {
-                    "conflictingInputs": false,
-                    "fsoeWatchdogError": false,
-                    "sacoVersionMismatch": false,
-                    "nonRecoverableSafetyError": false,
-                    "temperatureError": false,
-                    "connectionToSafetySettingsManagerLost": false,
-                    "environmentDataMissing": false,
-                    "jointsSafetyError": [
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                    ],
-                    "safetyVersionMismatch": false
-                },
-                "safetyConfigurationIndex": 0,
-                "fsoeConnectionStatus": [
-                    "Data",
-                    "Data",
-                    "Data",
-                    "Data",
-                    "Data",
-                    "Data",
-                    "Data"
-                ]
-            },
-            "robot": {
-                "closeToSingularity": false,
-                "endEffectorConfiguration": {
-                    "centerOfMass": [
-                        -0.009999999776482582,
-                        0,
-                        0.029999999329447746
-                    ],
-                    "inertia": [
-                        0.0010000000474974513,
-                        0,
-                        0,
-                        0,
-                        0.0024999999441206455,
-                        0,
-                        0,
-                        0,
-                        0.0017000000225380063
-                    ],
-                    "mass": 0.7300000190734863,
-                    "transformation": [
-                        0.7071067690849304,
-                        -0.7071067690849304,
-                        0,
-                        0,
-                        0.7071067690849304,
-                        0.7071067690849304,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0.10339999943971634,
-                        1
-                    ]
-                },
-                "robotErrors": []
-            },
-            "processes": "Up",
-            "startup": {
-                "tag": "Started"
-            },
-            "controlToken": {
-                "activeToken": {
-                    "id": 645396955,
-                    "ownedBy": "admin"
-                },
-                "fciActive": false,
-                "tokenRequest": null
-            },
-            "derived": {
-                "operatingMode": "Programming",
-                "desiredColor": {
-                    "color": "Blue",
-                    "mode": "Constant"
-                },
-                "td2Tests": {
-                    "status": "OK",
-                    "canExecute": true
-                },
-                "lifetime": {
-                    "status": "OK",
-                    "lifetime": 0.013,
-                    "isConfirmationNeeded": false
-                }
-            }
-        }
         """
         async with self.connect('admin/api/system-status') as websocket:
             while True:
@@ -457,107 +227,10 @@ class Desk:
                 yield json_module.loads(event)
 
     @trio_async_generator
-    async def safety_status(self):            
-        """
-        This includes the brakeState (7)
-        Example output:
+    async def safety_status(self):         
+        if self._platform == 'panda':
+            raise NotImplementedError("Safety status is not available on Panda platform.")   
 
-        {
-            "sequenceNumber": 18471788,
-            "safetyControllerStatus": "Idle",
-            "brakeState": [
-                "Locked",
-                "Locked",
-                "Locked",
-                "Locked",
-                "Locked",
-                "Locked",
-                "Locked"
-            ],
-            "stoState": "SafeTorqueOff",
-            "timeToTd2": 8252,
-            "activeWarnings": {
-                "safetySettingsInvalidated": false,
-                "temperatureHigh": false
-            },
-            "demandedRecoveries": {
-                "jointLimitViolation": [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                ],
-                "jointPositionError": [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                ],
-                "safetyRuleViolationsConfirmation": {},
-                "safetyRuleViolationsRecovery": {}
-            },
-            "recoverableErrors": {
-                "environmentDataTimeout": false,
-                "fsoeConnectionError": false,
-                "genericJointError": false,
-                "guidingEnablingDevice": false,
-                "jointPositionError": false,
-                "safeInputErrorX31": false,
-                "safeInputErrorX32": false,
-                "safeInputErrorX33": false,
-                "safeInputErrorX4": false,
-                "td2Timeout": false
-            },
-            "activeRecovery": null,
-            "safeInputState": {
-                "guidingEnableButton": "Inactive",
-                "x31": "Active",
-                "x32": "Inactive",
-                "x33": "Inactive",
-                "x4": "Inactive"
-            },
-            "powerState": {
-                "endEffector": "Off",
-                "robot": "On"
-            },
-            "safetyControllerStatusReason": {
-                "conflictingInputs": false,
-                "fsoeWatchdogError": false,
-                "sacoVersionMismatch": false,
-                "nonRecoverableSafetyError": false,
-                "temperatureError": false,
-                "connectionToSafetySettingsManagerLost": false,
-                "environmentDataMissing": false,
-                "jointsSafetyError": [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                ],
-                "safetyVersionMismatch": false
-            },
-            "safetyConfigurationIndex": 0,
-            "fsoeConnectionStatus": [
-                "Data",
-                "Data",
-                "Data",
-                "Data",
-                "Data",
-                "Data",
-                "Data"
-            ]
-        }
-        
-        """
         async with self.connect('admin/api/safety/status') as websocket:
             while True:
                 event = await websocket.get_message()
@@ -565,54 +238,6 @@ class Desk:
 
     @trio_async_generator
     async def system_status(self):            
-        """
-        Example:
-        {
-            "connectedSlaves": 7,
-            "ethernetConnected": true,
-            "firmwareDownloadStatus": [
-                "INITIAL_STATE",
-                "INITIAL_STATE",
-                "INITIAL_STATE",
-                "INITIAL_STATE",
-                "INITIAL_STATE",
-                "INITIAL_STATE",
-                "INITIAL_STATE"
-            ],
-            "firmwareVersion": [
-                "2.0.7-F",
-                "2.0.7-F",
-                "2.0.7-F",
-                "2.0.7-F",
-                "2.0.7-F",
-                "2.0.7-F",
-                "2.0.7-F"
-            ],
-            "jointStatus": [
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            "jointsInError": false,
-            "lifetimeConfirmationNeeded": false,
-            "lifetimePercentages": [
-                0,
-                0.013,
-                0,
-                0.001,
-                0,
-                0,
-                0
-            ],
-            "masterStatus": "OP",
-            "slavesOperational": true,
-            "startedWithEni": true
-        }
-        """
         async with self.connect('desk/api/system/status') as websocket:
             while True:
                 event = await websocket.get_message()
@@ -635,18 +260,37 @@ class Desk:
                 yield json_module.loads(event)
     
     async def wait_for_brakes_to_open(self):
-        async with self.safety_status() as generator:
-            async for status in generator:
-                brakes_unlocked = [b == "Unlocked" for b in status['brakeState']]
-                if all(brakes_unlocked):
-                    return
+        if self._platform == 'panda':
+            async with self.system_status() as generator:
+                async for status in generator:
+                    brakes_unlocked = status['brakesOpen']
+                    if all(brakes_unlocked):
+                        return
+
+        elif self._platform == 'fr3':
+            async with self.safety_status() as generator:
+                async for status in generator:
+                    brakes_unlocked = [b == "Unlocked" for b in status['brakeState']]
+                    if all(brakes_unlocked):
+                        return
     
     async def wait_for_brakes_to_close(self):
-        async with self.safety_status() as generator:
-            async for status in generator:
-                brakes_locked = [b == "Locked" for b in status['brakeState']]
-                if all(brakes_locked):
-                    return
+        if self._platform == 'panda':
+            async with self.system_status() as generator:
+                async for status in generator:
+                    brakes_open = status['brakesOpen']
+                    brakes_locked = [not b for b in brakes_open]
+                    if all(brakes_locked):
+                        return
+        elif self._platform == 'fr3':
+            """
+            For FR3, we need to check the brake state of each joint.
+            """
+            async with self.safety_status() as generator:
+                async for status in generator:
+                    brakes_locked = [b == "Locked" for b in status['brakeState']]
+                    if all(brakes_locked):
+                        return
 
     async def wait_for_press(self, button: typing.Literal['circle', 'check', 'cross', 'up', 'down', 'left', 'right']):
         async with self.button_events() as generator:

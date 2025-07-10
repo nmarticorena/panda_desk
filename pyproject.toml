@@ -27,6 +27,7 @@ dependencies = [
     "trio-websocket@git+https://github.com/jc211/trio-websocket",
     "trio_util",
     "httpx",
+    "tyro",
     ]
 
 [build-system]
