@@ -363,6 +363,43 @@ class Desk:
             await self._request('delete',
                         '/admin/api/control-token/fci',
                         json={'token': self._token.token})
+
+    async def get_eef_parameters(self) -> dict:
+        """
+        Get the gripper physical parameters. Such as the mass
+        Intertia, center of Mass and flange to end effector
+        transform
+        """
+        response = await self._request('get',
+                        '/admin/api/end-effector')
+        return response.json()
+
+    async def set_eef_parameters(self, parameters: dict) -> dict:
+        """
+        Set the eef physical parameters.
+        {
+            "selection": "ee-gripper",
+            "parameters": {
+                "mass": 0.83,
+                "inertia": [0.001, 0, 0, 0, 0.0025, 0, 0, 0, 0.0017],
+                "centerOfMass": [-0.01, 0, 0.03],
+                "transformation": [0.7071, -0.7071, 0, 0, 0.7071, 0.7071, 0, 0, 0, 0, 1, 0, 0, 0, 0.1034, 1],
+                "collisionModel": {
+                    "pointB": [-0.0353553390593274, -0.0353553390593274, 0.04, -0.0353553390593274, -0.0353553390593274, 0.1, 0, 0, 0],
+                    "radius": [0.04, 0.02, 0],
+                    "pointA": [0.0353553390593274, 0.0353553390593274, 0.04, 0.0353553390593274, 0.0353553390593274, 0.1, 0, 0, 0]
+                }
+            }
+        }
+        """
+        response = await self._request('put',
+                                       '/admin/api/end-effector',
+                                       json = parameters,
+                                       headers={'X-Control-Token': self._token.token},
+                                       timeout = 30) # Takes arround 18 seconds
+        return response.json()
+
+
         
     async def _get_active_token(self) -> Token:
         token = Token()
@@ -404,7 +441,7 @@ class Desk:
         self._token = token
     
     async def _request(self, 
-                    method: typing.Literal["get", "post", "delete"], 
+                    method: typing.Literal["get", "post", "delete", "put"], 
                     url:str, 
                     headers: typing.Optional[typing.Dict[str, str]] = None,
                     json: typing.Optional[typing.Dict[str, str]]  = None,
